@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import ImageTk, Image
 
-from database.courses_db import insert, updateCourse
+from database.courses_db import insert, updateCourse, delete
 from database.registered_students_db import queryCount
 from model.course import Course
 from utils.course_registration_window import show_registration_window
@@ -70,6 +70,11 @@ def displayCourseInfo(isCreate, course=None):
     course_reg_btn = ttk.Button(root, text="Register student", command=lambda: show_registration_window(course, True))
     course_reg_btn.grid(row=7, column=0)
 
+    if isCreate:
+        course_reg_btn.grid_forget()
+    else:
+        course_reg_btn.grid(row=7, column=0)
+
 # Create the save button
     save_button = tk.Button(root, text="Save", bg='blue', fg='white', command=lambda: saveCourse(
         courseTitleTextbox.get(), courseCodeTextbox.get(), courseLecturerTextbox.get(), isCreate
@@ -77,7 +82,7 @@ def displayCourseInfo(isCreate, course=None):
     save_button.grid(row=7, column=3)
 
     # Create the delete button
-    delete_button = tk.Button(root, text="Delete", bg='red', fg='white', command=lambda: deleteCourse(course.Matric))
+    delete_button = tk.Button(root, text="Delete", bg='red', fg='white', command=lambda: delete(course.Matric))
 
     # Hide delete button if creating new record
     if isCreate:
@@ -85,13 +90,14 @@ def displayCourseInfo(isCreate, course=None):
     else:
         delete_button.grid(row=7, column=2)
 
-#     Get number of registered students
-    numberOfRegStudents = queryCount(course.courseCode)
+    if course:
+        # Get number of registered students
+        numberOfRegStudents = queryCount(course.courseCode)
 
-    # Registered students button
-    reg_students_btn = ttk.Button(root, text=f"{numberOfRegStudents} registered students",
-                                  command=lambda: show_registration_window(course, False))
-    reg_students_btn.grid(row=8, column=1)
+        # Registered students button
+        reg_students_btn = ttk.Button(root, text=f"{numberOfRegStudents} registered students",
+                                      command=lambda: show_registration_window(course, False))
+        reg_students_btn.grid(row=8, column=1)
 
 
 def saveCourse(courseTitle, courseCode, courseLecturer, isCreate):
@@ -105,7 +111,3 @@ def saveCourse(courseTitle, courseCode, courseLecturer, isCreate):
         insert(course)
     else:
         updateCourse(course)
-
-
-def deleteCourse(courseCodeNumber):
-    deleteCourse(courseCodeNumber)

@@ -8,7 +8,11 @@ from model.student import Student
 
 def displayStudentInfo(isCreate, student=None):
     root = tk.Tk()
-    root.title(f"{student.Fullname} Details")
+
+    if isCreate:
+        root.title("Create new record")
+    else:
+        root.title(f"{student.Fullname} Details")
     root.geometry("500x500")
 
     # Create a custom style for the label
@@ -16,16 +20,17 @@ def displayStudentInfo(isCreate, student=None):
     style.configure("My.TLabel", background="#f0f0f0", borderradius=5)
 
     # Open the image file using PIL
-    image = Image.open(student.DisplayPicture)
+    if isCreate:
+        image = Image.open(student.DisplayPicture)
 
-    # Convert the image to a PhotoImage object
-    photo_image = ImageTk.PhotoImage(image)
+        # Convert the image to a PhotoImage object
+        photo_image = ImageTk.PhotoImage(image)
 
-    # Create the label widget to display the image
-    image_path = student.DisplayPicture
-    img = ImageTk.PhotoImage(Image.open(image_path))
-    # image_label = ttk.Label(root, image=photo_image, style="My.TLabel")
-    # image_label.pack(expand=True, fill='both')
+        # Create the label widget to display the image
+        image_path = student.DisplayPicture
+        img = ImageTk.PhotoImage(Image.open(image_path))
+        # image_label = ttk.Label(root, image=photo_image, style="My.TLabel")
+        # image_label.pack(expand=True, fill='both')
 
     # Create the Full name label
     fNameLabel = ttk.Label(root, text="Full Name:")

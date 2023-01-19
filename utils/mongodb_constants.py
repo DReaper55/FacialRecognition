@@ -18,3 +18,11 @@ class CoursesDBConstants:
 class RegisteredStudentsDBConstants:
     courseCode = "courseCode"
     studentMatric = "studentMatric"
+
+
+class LecturesDBConstants:
+    courseCode = "courseCode"
+    lectureId = "lectureId"
+    courseTitle = "courseTitle"
+    startTime = "startTime"
+    endTime = "endTime"

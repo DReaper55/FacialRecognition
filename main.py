@@ -5,7 +5,7 @@ from ttkthemes import ThemedTk
 from database.student_db import getAllStudents, queryCount, insert, getOneStudent
 from pages.home_page import show_home_page
 from pages.courses_page import show_courses_page
-from pages.lectures_page import show_route3
+from pages.lectures_page import show_lecture_page
 
 
 def buildMenu(self):
@@ -50,7 +50,7 @@ class App(tk.Tk):
         self.home_page_btn.pack(fill='x', pady=5, padx=12)
         self.courses_page_btn = ttk.Button(self.nav_frame, text="Courses", command=lambda: show_courses_page(self))
         self.courses_page_btn.pack(fill='x', pady=5, padx=12)
-        self.lectures_page_btn = ttk.Button(self.nav_frame, text="Lectures", command=lambda: show_route3(self))
+        self.lectures_page_btn = ttk.Button(self.nav_frame, text="Lectures", command=lambda: show_lecture_page(self))
         self.lectures_page_btn.pack(fill='x', pady=5, padx=12)
 
         # Go to first route
