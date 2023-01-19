@@ -36,17 +36,25 @@ def getAllAttendances():
     return attendances
 
 
-def getOneAttendance(lectureId):
-    result = myCollection.find_one({"lectureId": lectureId})
-    data = json.loads(json_util.dumps(result))
+def getOneAttendance(courseCode):
+    results = myCollection.find({"courseCode": courseCode})
 
-    attendance = Attendance(
-        lectureId=data["lectureId"],
-        courseCode=data["courseCode"],
-        studentMatric=data["studentMatric"],
-    )
+    attendances = []
 
-    return attendance
+    for result in results:
+        data = json.loads(json_util.dumps(result))
+
+        if data:
+            attendance = Attendance(
+                lectureId=data["lectureId"],
+                courseCode=data["courseCode"],
+                studentMatric=data["studentMatric"],
+                dateTime=data["dateTime"],
+            )
+
+            attendances.append(attendance)
+
+    return attendances
 
 
 # Updating a document

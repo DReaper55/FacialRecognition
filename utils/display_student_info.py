@@ -20,7 +20,7 @@ def displayStudentInfo(isCreate, student=None):
     style.configure("My.TLabel", background="#f0f0f0", borderradius=5)
 
     # Open the image file using PIL
-    if isCreate:
+    if not isCreate:
         image = Image.open(student.DisplayPicture)
 
         # Convert the image to a PhotoImage object

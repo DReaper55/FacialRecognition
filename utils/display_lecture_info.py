@@ -10,9 +10,11 @@ from tktimepicker import SpinTimePickerModern
 from tktimepicker import constants
 
 from database.attendance_db import queryCount
+from database.registered_students_db import queryCount as qc
 from database.courses_db import getAllCourses
-from database.lectures_db import insert, updateLecture
+from database.lectures_db import insert, updateLecture, delete
 from model.lecture import Lecture
+from utils.attendance_window import show_attendance_window
 
 
 def displayLectureInfo(isCreate, lecture=None):
@@ -37,6 +39,8 @@ def displayLectureInfo(isCreate, lecture=None):
     for course in courses:
         new_item = f"{course.courseCode}, {course.courseTitle}"
         newCourseList.append(new_item)
+
+    # todo: also set lecture values for update
 
     # Create the drop-down menu
     dropdown = ttk.OptionMenu(root, selected_option, "", *newCourseList)
@@ -102,6 +106,15 @@ def displayLectureInfo(isCreate, lecture=None):
 
     # print(datetime.now().strftime("%d-%m-%Y %I:%M %p"))
 
+    # Take attendance button
+    course_reg_btn = ttk.Button(root, text="Take attendance", command=lambda: show_attendance_window(lecture, True))
+    course_reg_btn.grid(row=7, column=0)
+
+    if isCreate:
+        course_reg_btn.grid_forget()
+    else:
+        course_reg_btn.grid(row=7, column=0)
+
     # Create the save button
     save_button = tk.Button(root, text="Save", bg='blue', fg='white', command=lambda: saveLecture(
         selected_option, startDatePicker, start_time_picker, endDatePicker, end_time_picker, isCreate
@@ -109,7 +122,7 @@ def displayLectureInfo(isCreate, lecture=None):
     save_button.grid(row=7, column=3)
 
     # Create the delete button
-    delete_button = tk.Button(root, text="Delete", bg='red', fg='white', command=lambda: print(''))
+    delete_button = tk.Button(root, text="Delete", bg='red', fg='white', command=lambda: delete(lecture.lectureId))
 
     # Hide delete button if creating new record
     if isCreate:
@@ -118,17 +131,16 @@ def displayLectureInfo(isCreate, lecture=None):
         delete_button.grid(row=7, column=2)
 
     if lecture:
+        # Get number of marked students
+        numberOfMarkedStudents = queryCount(lecture.courseCode)
+
         # Get number of registered students
-        numberOfRegStudents = queryCount(lecture.courseCode)
+        numberOfRegStudents = qc(lecture.courseCode)
 
         # Registered students button
-        reg_students_btn = ttk.Button(root, text=f"{numberOfRegStudents} registered students",
-                                      command=lambda: print(''))
+        reg_students_btn = ttk.Button(root, text=f"Attendance: {numberOfMarkedStudents}/{numberOfRegStudents} students",
+                                      command=lambda: show_attendance_window(lecture, False))
         reg_students_btn.grid(row=8, column=1)
-
-
-def show_time(spin_hour, spin_min, spin_sec):
-    messagebox.showinfo("Selected Time", spin_hour.get() + ":" + spin_min.get() + ":" + spin_sec.get())
 
 
 def saveLecture(selected_option, startDatePicker, start_time_picker, endDatePicker, end_time_picker, isCreate):

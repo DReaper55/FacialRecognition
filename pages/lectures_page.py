@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-from database.lectures_db import getAllLectures
+from database.lectures_db import getAllLectures, getOneLecture
 from utils.display_lecture_info import displayLectureInfo
 from utils.mongodb_constants import LecturesDBConstants
 
@@ -85,6 +85,6 @@ def on_row_select(table):
     # Get the lecture id of the lecture in the selected row
     lectureId = table.item(selected_item)['values'][0]
 
-    # lecture = getOneCourse(courseCode)
+    lecture = getOneLecture(lectureId)
 
-    # displayCourseInfo(False, lecture)
+    displayLectureInfo(False, lecture)

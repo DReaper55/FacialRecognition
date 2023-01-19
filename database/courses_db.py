@@ -61,4 +61,4 @@ def delete(courseCode):
 
 # Count records in db
 def queryCount():
-    return myCollection.count_documents({})
+    return myCollection.count_documents()

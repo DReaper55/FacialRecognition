@@ -90,5 +90,5 @@ def on_row_select(table):
 
     student = getOneStudent(matricNumber)
 
-    displayStudentInfo(student, False)
+    displayStudentInfo(False, student)
     print(student.Fullname)
