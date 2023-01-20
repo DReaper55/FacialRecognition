@@ -17,6 +17,11 @@ from model.lecture import Lecture
 from utils.attendance_window import show_attendance_window
 
 
+def displayAttendanceWindow(lecture, root):
+    root.destroy()
+    show_attendance_window(lecture, True)
+
+
 def displayLectureInfo(isCreate, lecture=None):
     root = tk.Tk()
     root.title("Lecture")
@@ -107,7 +112,7 @@ def displayLectureInfo(isCreate, lecture=None):
     # print(datetime.now().strftime("%d-%m-%Y %I:%M %p"))
 
     # Take attendance button
-    course_reg_btn = ttk.Button(root, text="Take attendance", command=lambda: show_attendance_window(lecture, True))
+    course_reg_btn = ttk.Button(root, text="Take attendance", command=lambda: displayAttendanceWindow(lecture, root))
     course_reg_btn.grid(row=7, column=0)
 
     if isCreate:

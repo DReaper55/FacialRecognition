@@ -23,7 +23,8 @@ def show_lecture_page(self):
 
     # Create the search box
     search_box = ttk.Entry(search_box_frame)
-    search_box.grid(row=0, column=1, padx=10, pady=10, sticky="w")
+    search_box.insert(0, "Search...")
+    search_box.grid(row=0, column=1, padx=10, pady=10, ipadx=100, sticky="w")
 
     # Create the search button
     search_button = ttk.Button(search_box_frame, text="Search")

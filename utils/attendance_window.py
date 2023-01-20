@@ -6,6 +6,7 @@ from database.attendance_db import getOneAttendance, insert, delete
 from database.student_db import getAllStudents, getOneStudent
 from model.attendance import Attendance
 from model.registered_student import RegisteredStudent
+from utils.facial_recog import search_for_students_with_ai
 from utils.mongodb_constants import StudentDBConstants
 
 
@@ -34,11 +35,17 @@ def show_attendance_window(lecture, isRegister):
 
     # Create the search box
     search_box = ttk.Entry(search_box_frame)
-    search_box.grid(row=0, column=1, padx=10, pady=10, sticky="w")
+    search_box.insert(0, "Search...")
+    search_box.grid(row=0, column=1, padx=10, pady=10, ipadx=100, sticky="w")
 
     # Create the search button
     search_button = ttk.Button(search_box_frame, text="Search")
     search_button.grid(row=0, column=2, padx=10, pady=10, sticky="e")
+
+    # Create the search button
+    ai_search_button = ttk.Button(search_box_frame, text="AI Search",
+                                  command=lambda: search_for_students_with_ai(getAllStudents()))
+    ai_search_button.grid(row=0, column=3, padx=10, pady=10, sticky="e")
 
     search_box_frame.pack()
 
